@@ -92,9 +92,9 @@ describe("constants", () => {
 });
 
 describe("DIFFICULTIES config", () => {
-  it("n00b is forgiving — generous timer, not strict", () => {
+  it("n00b has generous attempts and timer", () => {
     expect(DIFFICULTIES.n00b.timer).toBe(15);
-    expect(DIFFICULTIES.n00b.strict).toBe(false);
+    expect(DIFFICULTIES.n00b.strict).toBe(true);
     expect(DIFFICULTIES.n00b.maxAttempts).toBe(6);
   });
 

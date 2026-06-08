@@ -24,7 +24,7 @@ A single-player battleship game played in the browser. Find and sink the hidden 
 
 | Mode      | Attempts | Timer | Ship placement | Rule                                                        |
 | --------- | -------- | ----- | -------------- | ----------------------------------------------------------- |
-| 🐣 N00b   | 6        | 15 s  | Consecutive    | —                                                           |
+| 🐣 N00b   | 6        | 15 s  | Consecutive    | Ends early if remaining attempts can't cover remaining hits |
 | 🥷 Ninja  | 4        | 10 s  | Consecutive    | Ends early if remaining attempts can't cover remaining hits |
 | 👾 Hacker | 3        | 5 s   | Random         | Any miss ends the game immediately                          |
 

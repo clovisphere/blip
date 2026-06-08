@@ -3,7 +3,7 @@ export const SHIP_LENGTH = 3;
 export const TIMER_BONUS = 5;
 
 export const DIFFICULTIES = {
-  n00b:   { maxAttempts: 6, consecutive: true,  timer: 15,   strict: false },
+  n00b:   { maxAttempts: 6, consecutive: true,  timer: 15,   strict: true  },
   ninja:  { maxAttempts: 4, consecutive: true,  timer: 10,   strict: true  },
   hacker: { maxAttempts: 3, consecutive: false, timer: 5,    strict: true  },
 };

@@ -9,6 +9,7 @@ const SUBTITLES = {
 };
 
 const ABORT_MESSAGES = {
+  n00b:   "No way to win — ship escaped!",
   ninja:  "Shadow lost — mission aborted.",
   hacker: "ACCESS DENIED. Target offline.",
 };
