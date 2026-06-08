@@ -2,6 +2,7 @@
   "name": "battleship",
   "private": true,
   "scripts": {
-    "dev": "bun run server.js"
+    "dev": "bun run server.js",
+    "test": "bun test"
   }
 }

@@ -1,15 +1,6 @@
 import { playSound } from "./sound.js";
 import { startMatrix, stopMatrix } from "./matrix.js";
-
-const BOARD_SIZE   = 7;
-const SHIP_LENGTH  = 3;
-const TIMER_BONUS  = 5;
-
-const DIFFICULTIES = {
-  n00b:   { maxAttempts: 6, consecutive: true,  timer: null, strict: false },
-  ninja:  { maxAttempts: 4, consecutive: true,  timer: 10,   strict: true  },
-  hacker: { maxAttempts: 3, consecutive: false, timer: 5,    strict: true  },
-};
+import { BOARD_SIZE, SHIP_LENGTH, TIMER_BONUS, DIFFICULTIES, createShip, isAborted } from "./game.js";
 
 const SUBTITLES = {
   n00b:   "Find and sink the hidden ship",
@@ -111,23 +102,10 @@ const moveFocus = (delta) => {
   next.focus();
 };
 
-const randomPositions = () => {
-  const indices = Array.from({ length: BOARD_SIZE }, (_, i) => i);
-  for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [indices[i], indices[j]] = [indices[j], indices[i]];
-  }
-  return new Set(indices.slice(0, SHIP_LENGTH));
-};
 
 const init = () => {
-  const { consecutive, timer } = DIFFICULTIES[difficulty];
-  if (consecutive) {
-    const start = Math.floor(Math.random() * (BOARD_SIZE - SHIP_LENGTH + 1));
-    shipPositions = new Set(Array.from({ length: SHIP_LENGTH }, (_, i) => start + i));
-  } else {
-    shipPositions = randomPositions();
-  }
+  const { timer } = DIFFICULTIES[difficulty];
+  shipPositions = createShip(difficulty);
   ship = new Set(shipPositions);
   guesses = new Set();
   attempts = 0;
@@ -225,7 +203,7 @@ const handleGuess = (index, cell) => {
     msgEl.textContent = "Out of attempts — ship escaped!";
     playSound("lose");
     endGame(false);
-  } else if (strict && ship.size > (maxAttempts - attempts)) {
+  } else if (isAborted(strict, ship.size, maxAttempts - attempts)) {
     msgEl.textContent = ABORT_MESSAGES[difficulty];
     playSound("lose");
     endGame(false);

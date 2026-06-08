@@ -73,13 +73,11 @@ battleship/
 
 ## TODO
 
-- [ ] Migrate to TypeScript
-- [ ] Add unit tests (game logic — ship placement, hit/miss, abort conditions)
+- [x] Add unit tests (game logic — ship placement, hit/miss, abort conditions)
 - [ ] Add end-to-end tests (Playwright)
 - [ ] Bundle with Vite or esbuild
 - [ ] Mobile touch improvements
 - [ ] High score persistence across difficulty resets
-- [ ] Multiplayer / PvP mode
 
 ## Tech
 
