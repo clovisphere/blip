@@ -151,6 +151,7 @@ const init = () => {
   playBtn.classList.add("visible");
   board.innerHTML = "";
   board.style.pointerEvents = "none";
+  playBtn.focus();
 
   for (let i = 0; i < BOARD_SIZE; i++) {
     const cell = document.createElement("div");
