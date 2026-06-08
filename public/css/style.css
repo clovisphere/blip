@@ -81,11 +81,13 @@ body.diff-n00b #timer {
     color: #e07a3d;
 }
 
+body.diff-n00b #play,
 body.diff-n00b #replay {
     color: #e07a3d;
     border-color: rgba(224, 122, 61, 0.4);
 }
 
+body.diff-n00b #play:hover,
 body.diff-n00b #replay:hover {
     background: rgba(224, 122, 61, 0.07);
     border-color: #e07a3d;
@@ -256,17 +258,20 @@ body.diff-hacker #attempts {
 
 
 body.diff-hacker #give-up,
+body.diff-hacker #play,
 body.diff-hacker #replay {
     border-radius: 2px;
     font-size: 1rem;
     letter-spacing: 0.2em;
 }
 
+body.diff-hacker #play,
 body.diff-hacker #replay {
     color: #a8ff78;
     border-color: rgba(168, 255, 120, 0.4);
 }
 
+body.diff-hacker #play:hover,
 body.diff-hacker #replay:hover {
     background: rgba(168, 255, 120, 0.08);
     border-color: #a8ff78;
@@ -359,6 +364,10 @@ h1 {
 
 #game.fading {
     opacity: 0;
+}
+
+#game.idle {
+    opacity: 0.5;
 }
 
 #win-tag {
@@ -535,6 +544,7 @@ body.diff-hacker #timer.urgent {
 
 
 #give-up,
+#play,
 #replay {
     font-family: var(--font-mono);
     font-size: 0.72rem;
@@ -592,16 +602,19 @@ body.diff-hacker #give-up:hover {
     animation: fadeIn 0.4s ease;
 }
 
+#play,
 #replay {
     color: var(--teal);
     border: 1px solid rgba(0, 150, 135, 0.4);
 }
 
+#play:hover,
 #replay:hover {
     background: rgba(0, 150, 135, 0.08);
     border-color: var(--teal);
 }
 
+#play.visible,
 #replay.visible {
     display: inline-block;
     animation: fadeIn 0.4s ease;

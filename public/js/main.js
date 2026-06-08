@@ -44,6 +44,7 @@ const attemptsEl   = document.getElementById("attempts");
 const bestEl       = document.getElementById("best");
 const timerEl      = document.getElementById("timer");
 const subtitleEl   = document.querySelector(".subtitle");
+const playBtn      = document.getElementById("play");
 const giveUp       = document.getElementById("give-up");
 const replay       = document.getElementById("replay");
 const winTag       = document.getElementById("win-tag");
@@ -122,8 +123,15 @@ const moveFocus = (delta) => {
 };
 
 
+const startGame = () => {
+  playBtn.classList.remove("visible");
+  giveUp.classList.add("visible");
+  game.classList.remove("idle");
+  board.style.pointerEvents = "auto";
+  if (DIFFICULTIES[difficulty].timer != null) startCountdown();
+};
+
 const init = () => {
-  const { timer } = DIFFICULTIES[difficulty];
   shipPositions = createShip(difficulty);
   ship = new Set(shipPositions);
   guesses = new Set();
@@ -132,15 +140,16 @@ const init = () => {
   stopSonar();
   stopCountdown();
   game.classList.remove("lost");
+  game.classList.add("idle");
   winTag.classList.remove("visible");
   msgEl.textContent = "";
   attemptsEl.textContent = "";
   updateBestDisplay();
   replay.classList.remove("visible");
-  giveUp.classList.add("visible");
+  giveUp.classList.remove("visible");
+  playBtn.classList.add("visible");
   board.innerHTML = "";
-  board.style.pointerEvents = "auto";
-  if (timer != null) startCountdown();
+  board.style.pointerEvents = "none";
 
   for (let i = 0; i < BOARD_SIZE; i++) {
     const cell = document.createElement("div");
@@ -294,6 +303,8 @@ document.querySelectorAll(".diff-btn").forEach((btn) => {
 });
 
 applyDifficulty(difficulty);
+
+playBtn.addEventListener("click", startGame);
 
 giveUp.addEventListener("click", () => {
   playSound("lose");
