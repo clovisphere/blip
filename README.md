@@ -63,10 +63,13 @@ battleship/
 ├── index.html
 ├── package.json
 ├── server.js             # Bun static file server
+├── tests/
+│   └── game.test.js      # unit tests (bun:test)
 └── public/
     ├── css/style.css
     └── js/
-        ├── main.js       # game logic
+        ├── game.js       # pure game logic (ship placement, abort check)
+        ├── main.js       # UI and game loop
         ├── matrix.js     # Matrix rain canvas (Hacker mode)
         └── sound.js      # Web Audio sound effects
 ```

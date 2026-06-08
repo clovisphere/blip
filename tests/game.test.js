@@ -77,8 +77,16 @@ describe("isAborted", () => {
   });
 });
 
-describe("TIMER_BONUS", () => {
-  it("is 5 seconds", () => {
+describe("constants", () => {
+  it("BOARD_SIZE is 7", () => {
+    expect(BOARD_SIZE).toBe(7);
+  });
+
+  it("SHIP_LENGTH is 3", () => {
+    expect(SHIP_LENGTH).toBe(3);
+  });
+
+  it("TIMER_BONUS is 5 seconds", () => {
     expect(TIMER_BONUS).toBe(5);
   });
 });

@@ -19,6 +19,12 @@ const WIN_MESSAGES = {
   hacker: (n) => `TARGET_DESTROYED. ${n}/${SHIP_LENGTH} CONFIRMED.`,
 };
 
+const MISS_MESSAGES = {
+  n00b:   (n) => `Miss! ${n} attempt${n > 1 ? "s" : ""} left.`,
+  ninja:  (n) => `No trace. ${n} shot${n > 1 ? "s" : ""} remaining.`,
+  hacker: ()  => "",
+};
+
 const HIT_ICON    = { n00b: "🚢", ninja: "💥", hacker: "☠"  };
 const MISS_ICON   = { n00b: "🌊", ninja: "💨", hacker: "✗"  };
 const REVEAL_ICON = { n00b: "⚓", ninja: "⚓", hacker: "?"  };
@@ -212,7 +218,7 @@ const handleGuess = (index, cell) => {
   } else {
     msgEl.textContent = isHit
       ? `Hit! ${ship.size} section${ship.size > 1 ? "s" : ""} remaining.`
-      : `Miss! ${maxAttempts - attempts} attempt${maxAttempts - attempts > 1 ? "s" : ""} left.`;
+      : MISS_MESSAGES[difficulty](maxAttempts - attempts);
     playSound(isHit ? "hit" : "miss");
   }
 };
