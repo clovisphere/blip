@@ -286,19 +286,27 @@ const applyDifficulty = (diff) => {
   document.body.className = `diff-${diff}`;
   subtitleEl.textContent = SUBTITLES[diff];
   giveUp.textContent = GIVE_UP_LABELS[diff];
+  updateBestDisplay();
   if (diff === "hacker") startMatrix(matrixCanvas);
   else stopMatrix(matrixCanvas);
 };
 
 document.querySelectorAll(".diff-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
+    const wasMidGame = giveUp.classList.contains("visible");
     document.querySelector(".diff-btn.active")?.classList.remove("active");
     btn.classList.add("active");
     applyDifficulty(btn.dataset.diff);
     game.classList.add("fading");
     setTimeout(() => {
+      game.style.transition = "none";
       init();
       game.classList.remove("fading");
+      requestAnimationFrame(() => { game.style.transition = ""; });
+      if (wasMidGame) {
+        msgEl.textContent = "Game reset.";
+        setTimeout(() => { if (msgEl.textContent === "Game reset.") msgEl.textContent = ""; }, 1500);
+      }
     }, 200);
   });
 });
