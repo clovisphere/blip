@@ -72,9 +72,9 @@ blip/
 - [x] Multiple creatures with per-type colours
 - [x] Pirate/comic-book redesign with Captain Blip mascot
 - [ ] End-to-end tests (Playwright)
-- [ ] Dockerfile + docker-compose for containerised local dev
+- [x] Dockerfile + docker-compose for containerised local dev
 - [ ] Makefile with `dev`, `test`, `build`, and `docker` targets
 - [ ] Deployment workflow (GitHub Actions — build, push image, deploy)
 - [ ] Custom favicon (Captain Blip)
-- [ ] Early-loss rule: end the game when shots remaining < beasts remaining (unwinnable state)
+- [x] Early-loss rule: end the game when shots remaining < beasts remaining (unwinnable state)
 - [ ] Per-level theming: distinct background/palette for ninja and hacker to reflect increasing danger
