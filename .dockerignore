@@ -3,6 +3,7 @@
 .claude
 .githooks
 tests
+Makefile
 AGENTS.md
 CLAUDE.md
 README.md

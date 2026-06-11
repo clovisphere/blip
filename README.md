@@ -82,7 +82,7 @@ blip/
 - [x] Pirate/comic-book redesign with Captain Blip mascot
 - [ ] End-to-end tests (Playwright)
 - [x] Dockerfile for containerised deployment
-- [ ] Makefile with `dev`, `test`, `build`, and `docker` targets
+- [x] Makefile with `dev`, `test`, `build`, and `docker` targets
 - [ ] Deployment workflow (GitHub Actions — build, push image, deploy)
 - [ ] Custom favicon (Captain Blip)
 - [x] Early-loss rule: end the game when shots remaining < beasts remaining (unwinnable state)
