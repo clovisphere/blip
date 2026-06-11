@@ -1,58 +1,18 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta
-            name="description"
-            content="Blip — a hidden location deduction game"
-        />
-        <title>Blip</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Permanent+Marker&family=Special+Elite&family=VT323&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            rel="icon"
-            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>"
-        />
-        <link rel="stylesheet" href="./public/css/style.css" />
-    </head>
-    <body>
-        <main>
-            <header>
-                <h1>Blip</h1>
-                <p class="subtitle">Find and sink the hidden ship</p>
-            </header>
-
-            <nav id="difficulty" role="group" aria-label="Difficulty">
-                <button class="diff-btn active" data-diff="n00b">🐣 N00b</button>
-                <button class="diff-btn" data-diff="ninja">🥷 Ninja</button>
-                <button class="diff-btn" data-diff="hacker">👾 Hacker</button>
-            </nav>
-
-            <section id="game" aria-label="Game board">
-                <div id="board" role="grid" aria-label="Blip grid"></div>
-                <div id="win-tag" aria-hidden="true">SUNK IT!</div>
-            </section>
-
-            <footer>
-                <p id="timer" aria-live="assertive" aria-atomic="true"></p>
-                <p id="status" aria-live="polite" aria-atomic="true"></p>
-                <p id="attempts" aria-label="Attempt counter"></p>
-                <p id="best" aria-label="Best score"></p>
-                <div id="actions">
-                    <button id="play">▶ Play</button>
-                    <button id="give-up">⚑ Give up</button>
-                    <button id="replay">↺ Play again</button>
-                </div>
-            </footer>
-        </main>
-
-        <div id="ninja-overlay" aria-hidden="true"></div>
-        <canvas id="matrix-bg" aria-hidden="true"></canvas>
-        <script src="./public/js/main.js" type="module" defer></script>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Blip — hunt the hidden beasts on a 4×7 grid" />
+    <title>Blip</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Patrick+Hand&display=swap" rel="stylesheet" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>" />
+    <link rel="stylesheet" href="./public/css/style.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="./public/js/main.js" type="module" defer></script>
+  </body>
 </html>

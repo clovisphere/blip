@@ -1,119 +1,49 @@
 let audio;
+let enabled = true;
 
-const makeNode = (oscType) => {
-  const osc = audio.createOscillator();
-  const gain = audio.createGain();
-  osc.connect(gain);
-  gain.connect(audio.destination);
-  osc.type = oscType;
-  return { osc, gain };
+export const setSoundEnabled = (on) => { enabled = on; };
+
+const ac = () => {
+  audio ??= new (window.AudioContext || window.webkitAudioContext)();
+  if (audio.state === "suspended") audio.resume();
+  return audio;
 };
 
-const makeNoise = (duration) => {
-  const size = Math.ceil(audio.sampleRate * duration);
-  const buffer = audio.createBuffer(1, size, audio.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
-  const source = audio.createBufferSource();
-  source.buffer = buffer;
-  return source;
+const tone = (freq, dur, type = "sine", vol = 0.18, slide) => {
+  const ctx = ac();
+  const t = ctx.currentTime;
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(freq, t);
+  if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + dur);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(t); o.stop(t + dur + 0.03);
+};
+
+const noise = (dur, vol = 0.22) => {
+  const ctx = ac();
+  const t = ctx.currentTime;
+  const b = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * dur), ctx.sampleRate);
+  const d = b.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+  const s = ctx.createBufferSource(); s.buffer = b;
+  const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 1100;
+  const g = ctx.createGain(); g.gain.value = vol;
+  s.connect(f); f.connect(g); g.connect(ctx.destination);
+  s.start(t);
 };
 
 export const playSound = (type) => {
-  audio ??= new AudioContext();
-  if (audio.state === "suspended") audio.resume();
-  const t = audio.currentTime;
-
-  if (type === "hit") {
-    // Sawtooth punch
-    const { osc, gain } = makeNode("sawtooth");
-    osc.frequency.setValueAtTime(220, t);
-    osc.frequency.exponentialRampToValueAtTime(60, t + 0.25);
-    gain.gain.setValueAtTime(0.5, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
-    osc.start(); osc.stop(t + 0.25);
-    // Low boom underneath
-    const { osc: bass, gain: bassGain } = makeNode("sine");
-    bass.frequency.setValueAtTime(80, t);
-    bass.frequency.exponentialRampToValueAtTime(25, t + 0.2);
-    bassGain.gain.setValueAtTime(0.6, t);
-    bassGain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
-    bass.start(); bass.stop(t + 0.2);
-    return;
-  }
-
-  if (type === "miss") {
-    // White noise through a descending bandpass — water splash
-    const noise = makeNoise(0.3);
-    const filter = audio.createBiquadFilter();
-    filter.type = "bandpass";
-    filter.frequency.setValueAtTime(900, t);
-    filter.frequency.exponentialRampToValueAtTime(200, t + 0.25);
-    filter.Q.value = 1.5;
-    const gain = audio.createGain();
-    gain.gain.setValueAtTime(0.5, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(audio.destination);
-    noise.start(t); noise.stop(t + 0.3);
-    return;
-  }
-
-  if (type === "win") {
-    // Ascending major arpeggio
-    [261, 329, 392, 523].forEach((freq, i) => {
-      const { osc, gain } = makeNode("sine");
-      const at = t + i * 0.12;
-      osc.frequency.setValueAtTime(freq, at);
-      gain.gain.setValueAtTime(0.3, at);
-      gain.gain.exponentialRampToValueAtTime(0.001, at + 0.4);
-      osc.start(at); osc.stop(at + 0.4);
-    });
-    return;
-  }
-
-  if (type === "lose") {
-    // Descending minor run — somber
-    [392, 349, 294, 220].forEach((freq, i) => {
-      const { osc, gain } = makeNode("sine");
-      const at = t + i * 0.15;
-      osc.frequency.setValueAtTime(freq, at);
-      gain.gain.setValueAtTime(0.25, at);
-      gain.gain.exponentialRampToValueAtTime(0.001, at + 0.3);
-      osc.start(at); osc.stop(at + 0.3);
-    });
-    return;
-  }
-
-  if (type === "sonar") {
-    const { osc, gain } = makeNode("sine");
-    osc.frequency.setValueAtTime(1100, t);
-    osc.frequency.exponentialRampToValueAtTime(550, t + 0.6);
-    gain.gain.setValueAtTime(0.1, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
-    osc.start(); osc.stop(t + 0.6);
-    return;
-  }
-
-  if (type === "dupe") {
-    // Double buzz — reject
-    [320, 240].forEach((freq, i) => {
-      const { osc, gain } = makeNode("square");
-      const at = t + i * 0.07;
-      osc.frequency.setValueAtTime(freq, at);
-      gain.gain.setValueAtTime(0.1, at);
-      gain.gain.exponentialRampToValueAtTime(0.001, at + 0.06);
-      osc.start(at); osc.stop(at + 0.06);
-    });
-    return;
-  }
-
-  if (type === "tick") {
-    const { osc, gain } = makeNode("square");
-    osc.frequency.setValueAtTime(1200, t);
-    gain.gain.setValueAtTime(0.07, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
-    osc.start(); osc.stop(t + 0.04);
-  }
+  if (!enabled) return;
+  try {
+    if (type === "blip")  { tone(640, 0.12, "square", 0.13, 880); return; }
+    if (type === "miss")  { noise(0.26); tone(220, 0.18, "sine", 0.1, 130); return; }
+    if (type === "hit")   { tone(520, 0.1, "square", 0.16, 720); setTimeout(() => tone(900, 0.16, "square", 0.16, 1150), 90); return; }
+    if (type === "win")   { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.2, "triangle", 0.18), i * 130)); return; }
+    if (type === "lose")  { [420, 340, 260].forEach((f, i) => setTimeout(() => tone(f, 0.24, "sine", 0.16, f * 0.8), i * 170)); return; }
+    if (type === "click") { tone(420, 0.05, "square", 0.09); }
+  } catch (_) {}
 };
