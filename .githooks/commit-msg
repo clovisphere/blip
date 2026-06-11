@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+msg=$(grep -v '^#' "$1" | grep -v '^[[:space:]]*$' | head -1)
+
+if [ -z "$msg" ]; then
+  echo "commit-msg: empty commit message" >&2
+  exit 1
+fi
+
+pattern='^(feat|fix|chore|test|docs|style|refactor|perf|ci|build|revert)(\([a-z0-9][a-z0-9-]*\))?(!)?: .+'
+
+if ! echo "$msg" | grep -qE "$pattern"; then
+  echo "commit-msg: does not follow Conventional Commits format" >&2
+  echo "  format : <type>[(<scope>)][!]: <subject>" >&2
+  echo "  types  : feat, fix, chore, test, docs, style, refactor, perf, ci, build, revert" >&2
+  echo "  example: feat(game): add hacker difficulty mode" >&2
+  echo "  got    : $msg" >&2
+  exit 1
+fi
+
+len=${#msg}
+if [ "$len" -gt 72 ]; then
+  echo "commit-msg: subject line too long (${len}/72 chars)" >&2
+  echo "  got: $msg" >&2
+  exit 1
+fi
