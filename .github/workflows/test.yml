@@ -2,13 +2,9 @@ name: Tests
 
 on:
   push:
-    paths:
-      - "public/js/**"
-      - "tests/**"
+    branches: [main, dev]
   pull_request:
-    paths:
-      - "public/js/**"
-      - "tests/**"
+    branches: [main, dev]
 
 jobs:
   test:
