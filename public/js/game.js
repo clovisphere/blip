@@ -79,6 +79,6 @@ export const hintFor = (board) => {
   if (!hidden.length) return null;
   const i = hidden[Math.floor(Math.random() * hidden.length)];
   return Math.random() < 0.5
-    ? `column ${"ABCDEFG"[i % COLS]}`
+    ? `column ${String.fromCharCode(65 + i % COLS)}`
     : `row ${Math.floor(i / COLS) + 1}`;
 };

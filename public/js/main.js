@@ -68,8 +68,8 @@ const creatureHTML = (color) =>
 
 // ── board ─────────────────────────────────────────────────────────────────────
 const boardHTML = () => {
-  const colLabels = Array.from("ABCDEFG").map(l => `<span>${l}</span>`).join("");
-  const rowLabels = [1, 2, 3, 4].map(n => `<span>${n}</span>`).join("");
+  const colLabels = Array.from({ length: COLS }, (_, i) => `<span>${String.fromCharCode(65 + i)}</span>`).join("");
+  const rowLabels = Array.from({ length: ROWS }, (_, i) => `<span>${i + 1}</span>`).join("");
   const cells = state.board.map((cell, i) => {
     let inner = `<span class="cell-water">~</span>`;
     if (cell.revealed && cell.treasure) inner = creatureHTML(cell.creature.color);
