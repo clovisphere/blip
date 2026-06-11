@@ -2,7 +2,7 @@
 
 ## Project
 
-Single-player browser hidden-location deduction game. A ship is hidden on the grid; the player fires shots until the ship sinks, time runs out, or it becomes mathematically impossible to win.
+Single-player browser hidden-location deduction game. A 3-cell ship is hidden on a 4×7 grid; the player fires shots until the ship sinks, time runs out, or it becomes mathematically impossible to win.
 
 ## Stack
 
@@ -36,6 +36,12 @@ battleship/
 ```
 
 **Hard boundary:** `game.js` is pure logic with zero DOM or browser API access. Keep it that way — it is what makes the unit tests fast and reliable.
+
+## Grid
+
+- **4 rows × 7 columns** = 28 cells total, indexed `0..27` (flat: `row * COLS + col`)
+- `ROWS = 4`, `COLS = 7` exported from `game.js` — never hardcode these values elsewhere
+- Consecutive placement is horizontal **or** vertical (chosen randomly); hacker mode is fully random (non-adjacent cells allowed)
 
 ## Difficulty modes
 

@@ -1,6 +1,7 @@
 import { describe, it, expect } from "bun:test";
 import {
-  BOARD_SIZE,
+  ROWS,
+  COLS,
   SHIP_LENGTH,
   TIMER_BONUS,
   DIFFICULTIES,
@@ -10,12 +11,21 @@ import {
   isAborted,
 } from "../public/js/game.js";
 
-const isConsecutive = (set) => {
+const inBounds = (set) => [...set].every((v) => v >= 0 && v < ROWS * COLS);
+
+const isHorizontal = (set) => {
   const sorted = [...set].sort((a, b) => a - b);
-  return sorted.every((v, i) => i === 0 || v === sorted[i - 1] + 1);
+  const sameRow = sorted.every((v) => Math.floor(v / COLS) === Math.floor(sorted[0] / COLS));
+  const consecutive = sorted.every((v, i) => i === 0 || v === sorted[i - 1] + 1);
+  return sameRow && consecutive;
 };
 
-const inBounds = (set) => [...set].every((v) => v >= 0 && v < BOARD_SIZE);
+const isVertical = (set) => {
+  const sorted = [...set].sort((a, b) => a - b);
+  return sorted.every((v, i) => i === 0 || v === sorted[i - 1] + COLS);
+};
+
+const isConsecutive2D = (set) => isHorizontal(set) || isVertical(set);
 
 describe("randomPositions", () => {
   it("returns exactly SHIP_LENGTH positions", () => {
@@ -32,25 +42,45 @@ describe("consecutivePositions", () => {
     expect(consecutivePositions().size).toBe(SHIP_LENGTH);
   });
 
-  it("positions are always consecutive", () => {
-    for (let i = 0; i < 50; i++) expect(isConsecutive(consecutivePositions())).toBe(true);
+  it("positions are always consecutive horizontally or vertically", () => {
+    for (let i = 0; i < 50; i++) expect(isConsecutive2D(consecutivePositions())).toBe(true);
   });
 
   it("positions are within board bounds", () => {
     for (let i = 0; i < 50; i++) expect(inBounds(consecutivePositions())).toBe(true);
   });
+
+  it("horizontal ships stay within their row", () => {
+    for (let i = 0; i < 50; i++) {
+      const pos = consecutivePositions();
+      if (isHorizontal(pos)) {
+        const sorted = [...pos].sort((a, b) => a - b);
+        expect(Math.floor(sorted[0] / COLS)).toBe(Math.floor(sorted[sorted.length - 1] / COLS));
+      }
+    }
+  });
+
+  it("vertical ships stay within their column", () => {
+    for (let i = 0; i < 50; i++) {
+      const pos = consecutivePositions();
+      if (isVertical(pos)) {
+        const sorted = [...pos].sort((a, b) => a - b);
+        expect(sorted[0] % COLS).toBe(sorted[sorted.length - 1] % COLS);
+      }
+    }
+  });
 });
 
 describe("createShip", () => {
   it("n00b always places ship consecutively", () => {
-    for (let i = 0; i < 30; i++) expect(isConsecutive(createShip("n00b"))).toBe(true);
+    for (let i = 0; i < 30; i++) expect(isConsecutive2D(createShip("n00b"))).toBe(true);
   });
 
   it("ninja always places ship consecutively", () => {
-    for (let i = 0; i < 30; i++) expect(isConsecutive(createShip("ninja"))).toBe(true);
+    for (let i = 0; i < 30; i++) expect(isConsecutive2D(createShip("ninja"))).toBe(true);
   });
 
-  it("hacker places a valid-sized ship", () => {
+  it("hacker places a valid-sized ship within bounds", () => {
     for (let i = 0; i < 30; i++) {
       const ship = createShip("hacker");
       expect(ship.size).toBe(SHIP_LENGTH);
@@ -78,8 +108,12 @@ describe("isAborted", () => {
 });
 
 describe("constants", () => {
-  it("BOARD_SIZE is 7", () => {
-    expect(BOARD_SIZE).toBe(7);
+  it("ROWS is 4", () => {
+    expect(ROWS).toBe(4);
+  });
+
+  it("COLS is 7", () => {
+    expect(COLS).toBe(7);
   });
 
   it("SHIP_LENGTH is 3", () => {

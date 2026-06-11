@@ -1,6 +1,6 @@
 import { playSound } from "./sound.js";
 import { startMatrix, stopMatrix } from "./matrix.js";
-import { BOARD_SIZE, SHIP_LENGTH, TIMER_BONUS, DIFFICULTIES, createShip, isAborted } from "./game.js";
+import { ROWS, COLS, SHIP_LENGTH, TIMER_BONUS, DIFFICULTIES, createShip, isAborted } from "./game.js";
 
 const SUBTITLES = {
   n00b:   "Find and sink the hidden ship",
@@ -153,12 +153,12 @@ const init = () => {
   board.style.pointerEvents = "none";
   playBtn.focus();
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
+  for (let i = 0; i < ROWS * COLS; i++) {
     const cell = document.createElement("div");
     cell.className = "cell";
     cell.setAttribute("role", "gridcell");
     cell.setAttribute("tabindex", i === 0 ? "0" : "-1");
-    cell.setAttribute("aria-label", `Position ${i}`);
+    cell.setAttribute("aria-label", `Row ${Math.floor(i / COLS) + 1}, column ${(i % COLS) + 1}`);
     cell.innerHTML = `<span class="cell-icon">·</span>`;
     cell.addEventListener("click", () => handleGuess(i, cell));
     board.appendChild(cell);
@@ -270,13 +270,11 @@ const launchConfetti = () => {
 };
 
 board.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-    e.preventDefault();
-    moveFocus(1);
-  } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-    e.preventDefault();
-    moveFocus(-1);
-  } else if (e.key === "Enter" || e.key === " ") {
+  if (e.key === "ArrowRight") { e.preventDefault(); moveFocus(1); }
+  else if (e.key === "ArrowLeft")  { e.preventDefault(); moveFocus(-1); }
+  else if (e.key === "ArrowDown")  { e.preventDefault(); moveFocus(COLS); }
+  else if (e.key === "ArrowUp")    { e.preventDefault(); moveFocus(-COLS); }
+  else if (e.key === "Enter" || e.key === " ") {
     e.preventDefault();
     document.activeElement?.click();
   }
