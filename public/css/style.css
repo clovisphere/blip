@@ -513,15 +513,24 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .play-area { flex-direction: column; }
-  .sidekick  { flex-direction: row; flex: 1 1 auto; width: 100%; }
-  .sea-board { flex: 1 1 100%; }
-  .speech    { flex: 1; }
+  #app { padding: 16px 12px 64px; }
+
+  .play-area  { flex-direction: column; gap: 12px; }
+  .sea-board  { flex: 0 0 auto; width: 100%; }
+  .sidekick   { flex-direction: column; flex: 0 0 auto; width: 100%; gap: 8px; align-items: center; }
+  .sidekick > div:first-child { width: 72px !important; height: 72px !important; flex-shrink: 0; }
+  .speech     { width: 100%; font-size: 15px; min-height: unset; padding: 8px 12px; text-align: center; }
+  .btn-back   { font-size: 14px; padding: 6px 4px; min-height: unset; }
+
+  .hud        { display: grid; grid-template-columns: 1fr auto; gap: 6px 8px; align-items: center; }
+  .hud-mode   { font-size: 20px; grid-column: 1; grid-row: 1; }
+  .btn-snd-sm { grid-column: 2; grid-row: 1; justify-self: end; }
+  .shots-left { font-size: 20px; padding: 4px 10px; grid-column: 1; grid-row: 2; justify-self: start; }
+  .pips-group { grid-column: 2; grid-row: 2; justify-self: end; }
+  .pips-lbl   { display: none; }
 }
 
 @media (max-width: 400px) {
-  .hud-mode   { font-size: 22px; }
-  .shots-left { font-size: 22px; padding: 4px 10px; }
   .lv-desc    { font-size: 16px; }
   .level-card { width: 100%; }
 }
