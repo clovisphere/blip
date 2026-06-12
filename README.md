@@ -1,4 +1,6 @@
 [![Tests](https://github.com/clovisphere/blip/actions/workflows/test.yml/badge.svg)](https://github.com/clovisphere/blip/actions)
+[![Release](https://img.shields.io/github/v/release/clovisphere/blip)](https://github.com/clovisphere/blip/releases)
+[![Docker](https://img.shields.io/docker/v/clovisphere/blip?label=docker&logo=docker&logoColor=white)](https://hub.docker.com/r/clovisphere/blip)
 [![Bun](https://img.shields.io/badge/Bun-1.2-black?logo=bun)](https://bun.sh)
 [![Vanilla JS](https://img.shields.io/badge/Vanilla_JS-ES2020-yellow?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
