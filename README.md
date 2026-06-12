@@ -83,7 +83,7 @@ blip/
 - [ ] End-to-end tests (Playwright)
 - [x] Dockerfile for containerised deployment
 - [x] Makefile with `dev`, `test`, `build`, and `docker` targets
-- [x] Deployment workflow (GitHub Actions — build, push image, deploy)
+- [x] CI workflow (GitHub Actions — build and push image to Docker Hub)
 - [x] Custom favicon (Captain Blip)
 - [x] Early-loss rule: end the game when shots remaining < beasts remaining (unwinnable state)
 - [ ] Per-level theming: distinct background/palette for ninja and hacker to reflect increasing danger
