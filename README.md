@@ -88,5 +88,5 @@ blip/
 - [x] CI workflow (GitHub Actions — build and push image to Docker Hub)
 - [x] Custom favicon (Captain Blip)
 - [x] Early-loss rule: end the game when shots remaining < beasts remaining (unwinnable state)
-- [ ] Per-level theming: distinct background/palette for ninja and hacker to reflect increasing danger
+- [x] Per-level theming: distinct background/palette for ninja and hacker to reflect increasing danger
 - [x] Center the game layout on all screen sizes (mobile and large desktop)
