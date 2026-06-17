@@ -82,9 +82,9 @@ const boardHTML = () => {
 
 // ── screens ───────────────────────────────────────────────────────────────────
 const homeHTML = () => {
-  const sndTxt = state.soundOn ? "♪ on" : "♪ off";
+  const sndTxt = state.soundOn ? "♪ sound on" : "♪ sound off";
   return `<div class="screen screen-home">
-    <div class="blip-float">${blip("happy", "170px")}</div>
+    <div class="blip-float">${blip("happy", "clamp(150px,40vw,200px)")}</div>
     <h1 class="game-title">blip!</h1>
     <p class="tagline">Captain Blip needs a first mate.<br>Tap the sea, find the hidden beasts — before you run out of cannonballs!</p>
     <button class="btn-primary" data-action="levels">PLAY</button>
@@ -94,6 +94,7 @@ const homeHTML = () => {
       <span class="chip">3 · find them all to win</span>
     </div>
     <button class="btn-sound" data-action="sound">${sndTxt}</button>
+    <a class="built-by-home" href="https://github.com/clovisphere" target="_blank" rel="noopener">built by Clovisphere</a>
   </div>`;
 };
 
@@ -109,7 +110,7 @@ const levelsHTML = () =>
       </button>
       <button class="level-card" data-action="ninja">
         <span class="lv-name ninja">ninja</span>
-        <span class="lv-desc">Beasts hide <b>anywhere</b> — but I <b>whisper hints</b>.</span>
+        <span class="lv-desc">Beasts hide <b>anywhere</b> — but Captain Blip <b>whispers hints</b>.</span>
         <span class="lv-badge ninja-badge">16 shots <span class="badge-sub">+ hints</span></span>
       </button>
       <button class="level-card hacker-card" data-action="hacker">
@@ -151,7 +152,7 @@ const winHTML = () => {
   const used = cfg.shots - state.shotsLeft;
   const pct = used > 0 ? Math.round((state.found / used) * 100) : 100;
   return `<div class="screen screen-end">
-    <div class="blip-float">${blip("happy", "150px")}</div>
+    <div class="blip-float">${blip("happy", "clamp(140px,38vw,180px)")}</div>
     <h2 class="end-title win-col">YOU WON!</h2>
     <p class="end-line">${state.line}</p>
     <div class="end-stats">
@@ -170,7 +171,7 @@ const loseHTML = () => {
   const title = state.shotsLeft > 0 ? "OUTNUMBERED!" : "OUT OF CANNONBALLS!";
   const levelBtn = state.difficulty === "noob" ? "New level" : "Easier level";
   return `<div class="screen screen-end">
-    ${blip("sad", "150px")}
+    ${blip("sad", "clamp(140px,38vw,180px)")}
     <h2 class="end-title lose-col">${title}</h2>
     <p class="end-line">${state.line}</p>
     <span class="stat-pill">Found ${state.found} of ${state.total} beasts</span>
