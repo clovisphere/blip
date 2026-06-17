@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/clovisphere/blip/compare/v0.3.1...v0.4.0) (2026-06-17)
+
+
+### Features
+
+* **ui:** add per-level theming to play screen ([d6b2027](https://github.com/clovisphere/blip/commit/d6b20279a79adb3efd61158da6f699559740f346))
+
 ## [0.3.1](https://github.com/clovisphere/blip/compare/v0.3.0...v0.3.1) (2026-06-12)
 
 
