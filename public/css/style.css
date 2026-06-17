@@ -10,6 +10,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: background 0.5s ease;
 }
 
 #app {
@@ -130,6 +131,8 @@ body {
   padding: 10px 8px;
   min-height: 44px;
 }
+
+.btn-give-up { color: var(--t-dim, #7a7468); }
 
 .btn-sound {
   appearance: none;
@@ -264,7 +267,7 @@ body {
   font-family: "Bangers", cursive;
   font-size: 30px;
   letter-spacing: 1px;
-  color: #0e7c86;
+  color: var(--t-title, #0e7c86);
 }
 
 .shots-left {
@@ -299,11 +302,12 @@ body {
 /* ── Sea board ── */
 .sea-board {
   flex: 1 1 420px;
-  background: #0e7c86;
-  border: 3px solid #15414a;
+  background: var(--t-board-bg, #0e7c86);
+  border: 3px solid var(--t-board-border, #15414a);
   border-radius: 20px;
-  box-shadow: 6px 6px 0 #15414a;
+  box-shadow: 6px 6px 0 var(--t-board-shadow, #15414a);
   padding: clamp(10px, 3vw, 16px);
+  transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }
 
 .board-grid {
@@ -319,7 +323,7 @@ body {
   gap: 7px;
   text-align: center;
   font-size: 15px;
-  color: #bfe9eb;
+  color: var(--t-coord, #bfe9eb);
 }
 
 .row-labels {
@@ -327,7 +331,7 @@ body {
   grid-template-rows: repeat(4, 1fr);
   gap: 7px;
   font-size: 15px;
-  color: #bfe9eb;
+  color: var(--t-coord, #bfe9eb);
   text-align: center;
   align-items: center;
 }
@@ -344,18 +348,18 @@ body {
   padding: 0;
   position: relative;
   aspect-ratio: 1;
-  background: #eaf6f6;
-  border: 2.5px solid #15414a;
+  background: var(--t-cell-bg, #eaf6f6);
+  border: 2.5px solid var(--t-cell-border, #15414a);
   border-radius: 8px;
-  box-shadow: inset 0 -3px 0 rgba(21, 65, 74, 0.12);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
   overflow: hidden;
   cursor: pointer;
-  transition: background 0.1s, transform 0.1s;
+  transition: background 0.5s ease, border-color 0.5s ease, filter 0.1s, transform 0.1s;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
-.cell:hover:not(:disabled) { background: #ceeef0; transform: scale(1.06); }
+.cell:hover:not(:disabled) { filter: brightness(1.15); transform: scale(1.06); }
 .cell:focus-visible { outline: 3px solid #ffd23f; outline-offset: 2px; }
 .cell:disabled { cursor: default; }
 
@@ -365,17 +369,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9ac9cc;
+  color: var(--t-water, #9ac9cc);
   font-size: 22px;
 }
 
 .cell-miss {
   position: absolute;
   inset: 0;
+  background: var(--t-miss-bg, #cfe6e7);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5b7e82;
+  color: var(--t-miss-color, #5b7e82);
   font-size: 24px;
   animation: blipReveal 0.28s ease-out;
 }

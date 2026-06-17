@@ -4,6 +4,48 @@ import { ROWS, COLS, DIFFICULTIES, CREATURES, buildBoard, hintFor, isUnwinnable 
 const app = document.getElementById("app");
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
+// ── per-level themes ──────────────────────────────────────────────────────────
+const THEMES = {
+  noob: {
+    pageBg: "radial-gradient(circle at 50% 0%, #d9f3ef, #aee0d9)",
+    "--t-board-bg": "#0e7c86",  "--t-board-border": "#15414a", "--t-board-shadow": "#15414a",
+    "--t-cell-bg":  "#eaf6f6",  "--t-cell-border":  "#15414a",
+    "--t-coord":    "#bfe9eb",  "--t-water":        "#a7cdcf",
+    "--t-miss-bg":  "#cfe6e7",  "--t-miss-color":   "#5b7e82",
+    "--t-title":    "#0a6f78",  "--t-dim":          "#6f7d72",
+  },
+  ninja: {
+    pageBg: "radial-gradient(circle at 50% 0%, #2a526d, #12233a)",
+    "--t-board-bg": "#103a52",  "--t-board-border": "#071c2a", "--t-board-shadow": "#071c2a",
+    "--t-cell-bg":  "#1c4e64",  "--t-cell-border":  "#0a2533",
+    "--t-coord":    "#86d6dc",  "--t-water":        "#467e8b",
+    "--t-miss-bg":  "#143540",  "--t-miss-color":   "#7aa3aa",
+    "--t-title":    "#7fe0e6",  "--t-dim":          "#9fc0c8",
+  },
+  hacker: {
+    pageBg: "radial-gradient(circle at 50% 0%, #3c0f1d, #170810)",
+    "--t-board-bg": "#2a0e16",  "--t-board-border": "#6b1340", "--t-board-shadow": "#6b1340",
+    "--t-cell-bg":  "#3d1620",  "--t-cell-border":  "#6b1340",
+    "--t-coord":    "#ec92a1",  "--t-water":        "#7c3a48",
+    "--t-miss-bg":  "#2c1019",  "--t-miss-color":   "#b06a78",
+    "--t-title":    "#ff5c84",  "--t-dim":          "#c98c98",
+  },
+};
+
+const THEME_VARS = Object.keys(THEMES.noob).filter(k => k.startsWith("--"));
+
+const applyTheme = (difficulty) => {
+  const root = document.documentElement;
+  const theme = THEMES[difficulty];
+  if (theme) {
+    THEME_VARS.forEach(k => root.style.setProperty(k, theme[k]));
+    document.body.style.background = theme.pageBg;
+  } else {
+    THEME_VARS.forEach(k => root.style.removeProperty(k));
+    document.body.style.removeProperty("background");
+  }
+};
+
 // ── state ─────────────────────────────────────────────────────────────────────
 const state = {
   screen: "home",
@@ -141,7 +183,7 @@ const playHTML = () => {
       <div class="sidekick">
         ${blip(state.mood, "110px")}
         <div class="speech">${state.line}<span class="speech-tip"></span></div>
-        <button class="btn-back" data-action="levels">give up · pick level</button>
+        <button class="btn-back btn-give-up" data-action="levels">give up · pick level</button>
       </div>
     </div>
   </div>`;
@@ -190,6 +232,7 @@ const render = () => { app.innerHTML = (SCREENS[state.screen] || homeHTML)(); };
 // ── game actions ──────────────────────────────────────────────────────────────
 const startGame = (difficulty) => {
   playSound("click");
+  applyTheme(difficulty);
   const board = buildBoard(difficulty);
   const total = board.filter(c => c.treasure).length;
   const intros = {
@@ -238,6 +281,7 @@ const fire = (i) => {
 };
 
 const finish = (kind) => {
+  applyTheme(null);
   playSound(kind === "win" ? "win" : "lose");
   const line = pick(
     kind === "win"
@@ -263,8 +307,8 @@ document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-action]");
   if (btn) {
     const a = btn.dataset.action;
-    if (a === "home")       { playSound("click"); setState({ screen: "home" }); }
-    else if (a === "levels"){ playSound("click"); setState({ screen: "levels" }); }
+    if (a === "home")       { playSound("click"); applyTheme(null); setState({ screen: "home" }); }
+    else if (a === "levels"){ playSound("click"); applyTheme(null); setState({ screen: "levels" }); }
     else if (a === "noob")  { startGame("noob"); }
     else if (a === "ninja") { startGame("ninja"); }
     else if (a === "hacker"){ startGame("hacker"); }
